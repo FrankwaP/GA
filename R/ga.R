@@ -331,9 +331,9 @@ ga <- function(
 
     # apply a user's defined function to update the GA object
     if (is.function(postFitness)) {
-      object <- do.call(postFitness, c(object, callArgs))
       Fitness <- object@fitness
       Pop <- object@population
+      object <- do.call(postFitness, c(object, callArgs))
     }
 
     # update iterations summary

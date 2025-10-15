@@ -329,16 +329,17 @@ ga <- function(
       ])
     }
 
-    # apply a user's defined function to update the GA object
-    if (is.function(postFitness)) {
-      object <- do.call(postFitness, c(object, callArgs))
-      Fitness <- object@fitness
-      Pop <- object@population
-    }
-
     # update iterations summary
     fitnessSummary[object@iter, ] <- gaSummary(object@fitness)
     object@summary <- fitnessSummary
+    
+    # apply a user's defined function to update the GA object
+    if (is.function(postFitness)) {
+      object <- do.call(postFitness, c(object, callArgs))
+      if (!inherits(object, "ga") {
+        stop("The postFitness function should return the modified ga object")
+      }
+    }
 
     if (is.function(monitor)) {
       monitor(object)
